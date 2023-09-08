@@ -1,6 +1,4 @@
 import React from "react";
-// import ChildComponent from "./ChildComponent";
-// , { useState, useEffect }
 
 class ChildComponent extends React.Component {
   constructor(props) {
@@ -21,17 +19,39 @@ class ChildComponent extends React.Component {
   }
 }
 
+let options = {
+  method: "GET",
+  headers: {
+    "content-type": "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRpc2hhYmxAZXhhbXBsZS5jb20iLCJpZCI6MjA5LCJpYXQiOjE2OTQxNzExNjZ9.RoqUqAz_ipvTHIUCSBmvq2_oOQOO6NZmbSln413rubg",
+  },
+};
+
 class LifecycleComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       count: 0,
     };
+    this.state1 = {
+      leeds: [],
+    };
   }
 
-  componentDidMount = () => {
-    console.log("componentDidMount");
+  fetchData = async () => {
+    const leeds = await fetch(
+      "https://todo-redev.herokuapp.com/api/todos?isCompleted=false",
+      options
+    );
+    const data = await leeds.json();
+    console.log(data);
   };
+
+  componentDidMount = () => {
+    this.fetchData();
+  };
+
   componentDidUpdate = () => {
     console.log(this.state.count);
   };
@@ -44,7 +64,6 @@ class LifecycleComponent extends React.Component {
   };
 
   render() {
-    // console.log("render");
     return (
       <div>
         <button onClick={() => this.setState({ count: this.state.count + 1 })}>
